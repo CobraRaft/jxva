@@ -1,247 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Jxva — Discord Bot</title>
+  <meta charset="UTF-8">
+  <title>jxva Bot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Poppins',sans-serif;background:radial-gradient(circle at top,#0b0b10,#0f0f18);color:#fff;min-height:100vh;scroll-behavior:smooth}
-    nav{position:fixed;left:0;right:0;top:0;height:64px;background:rgba(8,8,12,0.65);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:space-between;padding:10px 28px;z-index:200;border-bottom:1px solid rgba(255,255,255,0.03)}
-    .logo{color:#FFFA63;font-weight:700;font-size:1.4rem}
-    .links{display:flex;gap:14px;align-items:center}
-    .link{color:#fff;text-decoration:none;font-weight:600;padding:8px;border-radius:8px}
-    .link:hover{color:#FFFA63}
-    .btn{background:linear-gradient(135deg,#5865f2,#7289da);color:#fff;padding:8px 14px;border-radius:10px;text-decoration:none;font-weight:700}
-    .invite-btn{background:linear-gradient(135deg,#23a6d5,#5865f2)}
-    header{min-height:84vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 20px}
-    .hero{max-width:900px}
-    h1{font-size:3.4rem;color:#FFFA63;text-shadow:0 0 16px rgba(255,245,139,0.22);margin-bottom:12px}
-    p.lead{color:#cfcfcf;margin-bottom:18px;font-size:1.05rem}
-    .sections{padding:60px 20px}
-    section{max-width:1100px;margin:0 auto 40px;padding:20px}
-    .commands{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-    .card{background:rgba(255,255,255,0.03);padding:18px;border-radius:12px;text-align:left}
-    .card h3{color:#FFFA63;margin-bottom:8px}
-    .support a{display:inline-block;padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,#5865f2,#7289da);color:#fff;text-decoration:none}
-    footer{padding:28px;text-align:center;color:#9a9a9a;border-top:1px solid rgba(255,255,255,0.02)}
-
-    /* user mini */
-    .user-mini{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);padding:6px 10px;border-radius:10px}
-    .user-mini img{width:36px;height:36px;border-radius:50%}
-    #statusMsg{position:fixed;left:50%;transform:translateX(-50%);top:76px;background:rgba(0,0,0,0.6);color:#fff;padding:8px 14px;border-radius:10px;display:none;z-index:300}
-
-    @media (max-width:640px){h1{font-size:2.2rem}}
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #11111a, #0a0a0f);
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    header a {
+      color: #FFFA63;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    header a:hover { opacity: 0.8; }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-info img {
+      width: 36px; height: 36px; border-radius: 50%;
+    }
+    .login-btn {
+      background: linear-gradient(135deg, #FFFA63, #f8e473);
+      color: #111;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .login-btn:hover { transform: scale(1.05); }
+    h1 {
+      font-size: 3rem;
+      margin-top: 150px;
+      color: #FFFA63;
+      text-shadow: 0 0 15px rgba(255, 245, 139);
+    }
+    section {
+      margin: 60px auto;
+      max-width: 800px;
+      line-height: 1.6;
+    }
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      color: #999;
+    }
+    .button {
+      background: linear-gradient(135deg, #5865f2, #7289da);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .button:hover { transform: scale(1.05); }
   </style>
 </head>
 <body>
-  <nav>
-    <div class="logo">Jxva</div>
-    <div class="links" id="navLinks">
-      <a class="link" href="#home">Home</a>
-      <a class="link" href="#commands">Commands</a>
-      <a class="link" href="#support">Support</a>
-
-      <!-- Invite bot (server picker) -->
-      <a id="inviteLink" class="btn invite-btn" href="#">Invite Bot</a>
-
-      <!-- Login link will be set by JS -->
-      <a id="loginLink" class="btn" href="#">Login</a>
-    </div>
-  </nav>
-
-  <div id="statusMsg"></div>
-
-  <header id="home">
-    <div class="hero">
-      <h1>jxva — Discord Bot</h1>
-      <p class="lead">A modern Discord bot for moderation, automation, and community features — built by <strong>@neporrex_</strong>.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <a class="btn invite-btn" id="heroInvite" href="#">Invite jxva</a>
-        <a class="btn" id="heroLogin" href="#">Login with Discord</a>
-      </div>
+  <header>
+    <a href="#">jxva</a>
+    <nav>
+      <a href="#commands">Commands</a>
+      <a href="#support">Support</a>
+    </nav>
+    <div id="authArea">
+      <a class="login-btn" id="loginBtn">Login</a>
     </div>
   </header>
 
-  <div class="sections">
-    <section id="commands">
-      <h2>Commands</h2>
-      <p class="lead">Common moderation & utility commands — more to be added.</p>
-      <div class="commands" id="commandsGrid">
-        <div class="card"><h3>/ban</h3><p>Ban a user.</p></div>
-        <div class="card"><h3>/kick</h3><p>Kick a user.</p></div>
-        <div class="card"><h3>/mute</h3><p>Mute a user.</p></div>
-        <div class="card"><h3>/ping</h3><p>Check the bot's latency.</p></div>
-      </div>
-    </section>
+  <h1>jxva</h1>
+  <section>
+    <p>Here is <strong>jxva</strong> — a Discord bot made by <strong>@neporrex_</strong> when he started to learn JavaScript!<br>From moderation to automation!</p>
+    <a class="button" href="invite.html">Invite jxva</a>
+  </section>
 
-    <section id="support" class="support">
-      <h2>Support</h2>
-      <p class="lead">Join our Discord for help, feature requests, and updates.</p>
-      <a href="https://discord.gg/E4e5v7pznG" target="_blank">Join Support Server</a>
-    </section>
-  </div>
+  <section id="commands">
+    <h2>Commands</h2>
+    <p>List your commands here. You can edit this later.</p>
+  </section>
 
-  <footer>© 2025 jxva — Built by @Neporrex × Vercel</footer>
+  <section id="support">
+    <h2>Support</h2>
+    <p>Need help? Join our Discord server:</p>
+    <a class="button" href="https://discord.gg/E4e5v7pznG" target="_blank">Join Support Server</a>
+  </section>
 
-  <script type="module">
-    // ---------- CONFIG ----------
+  <footer>© 2025 jxva — Made by @Neporrex × Vercel.</footer>
+
+  <script>
     const CLIENT_ID = "1425450445140393994";
     const REDIRECT_URI = "https://jxva.vercel.app";
-    // scopes: identify for user, guilds to get server list (optional)
-    const SCOPE = "identify guilds";
-    const LOGIN_URL = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(SCOPE)}`;
-    // Invite link for adding the bot to a server (server-picker)
-    const INVITE_URL = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&permissions=8&scope=bot+applications.commands`;
 
-    // ---------- ELEMENTS ----------
-    const loginLink = document.getElementById("loginLink");
-    const heroLogin = document.getElementById("heroLogin");
-    const inviteLink = document.getElementById("inviteLink");
-    const heroInvite = document.getElementById("heroInvite");
-    const navLinks = document.getElementById("navLinks");
-    const statusMsg = document.getElementById("statusMsg");
+    const authArea = document.getElementById("authArea");
+    const loginBtn = document.getElementById("loginBtn");
 
-    // Utility to show a small status message
-    function showStatus(text, timeout = 4000) {
-      statusMsg.textContent = text;
-      statusMsg.style.display = "block";
-      clearTimeout(showStatus._t);
-      showStatus._t = setTimeout(() => statusMsg.style.display = "none", timeout);
+    async function handleLogin() {
+      const url = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=identify`;
+      window.location.href = url;
     }
 
-    // Set static links
-    loginLink.href = LOGIN_URL;
-    heroLogin.href = LOGIN_URL;
-    inviteLink.href = INVITE_URL;
-    heroInvite.href = INVITE_URL;
+    loginBtn.addEventListener("click", handleLogin);
 
-    // Read code from URL even if there is a hash
-    const query = new URLSearchParams(window.location.search);
-    const code = query.get("code");
-
-    // Render navbar for logged-in user object
-    function renderLoggedIn(user) {
-      if (!user || !user.id) return;
-      // Build user mini HTML
-      const userHtml = document.createElement("div");
-      userHtml.className = "user-mini";
-      userHtml.innerHTML = `
-        <img src="${user.avatar}" alt="avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-        <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1">
-          <strong style="font-size:0.95rem">${user.username}${user.discriminator ? ("#" + user.discriminator) : ""}</strong>
-          <small style="color:#bbb;font-size:0.8rem">ID: ${user.id}</small>
-        </div>
-      `;
-
-      // Remove existing login link/button and append dashboard + logout + user mini
-      // Clear the login link(s)
-      const loginEl = document.getElementById("loginLink");
-      if (loginEl) loginEl.remove();
-      const heroLoginEl = document.getElementById("heroLogin");
-      if (heroLoginEl) heroLoginEl.remove();
-
-      // Add dashboard and logout to nav
-      const dashboardA = document.createElement("a");
-      dashboardA.className = "btn";
-      dashboardA.href = "/dashboard.html";
-      dashboardA.textContent = "Dashboard";
-
-      const logoutBtn = document.createElement("button");
-      logoutBtn.className = "btn";
-      logoutBtn.textContent = "Logout";
-      logoutBtn.style.background = "linear-gradient(135deg,#FFFA63,#f8e473)";
-      logoutBtn.style.color = "#0a0a0f";
-      logoutBtn.addEventListener("click", () => {
-        localStorage.removeItem("jxvaUser");
-        // force reload to show login again
-        location.href = "/";
-      });
-
-      // Append user info, dashboard, logout
-      navLinks.appendChild(userHtml);
-      navLinks.appendChild(dashboardA);
-      navLinks.appendChild(logoutBtn);
-
-      showStatus(`Welcome, ${user.username}!`, 3000);
-    }
-
-    // Render navbar for logged-out state (ensures login links exist)
-    function renderLoggedOut() {
-      // ensure login links exist
-      if (!document.getElementById("loginLink")) {
-        const a = document.createElement("a");
-        a.className = "btn";
-        a.id = "loginLink";
-        a.href = LOGIN_URL;
-        a.textContent = "Login";
-        navLinks.appendChild(a);
-      }
-      if (!document.getElementById("heroLogin")) {
-        const a = document.createElement("a");
-        a.className = "btn";
-        a.id = "heroLogin";
-        a.href = LOGIN_URL;
-        a.textContent = "Login with Discord";
-        const hero = document.querySelector(".hero");
-        if (hero) hero.appendChild(a); // may not be desired but safe
-      }
-    }
-
-    // Attempt to exchange code with backend and store user
-    async function exchangeCodeAndLogin(codeParam) {
-      showStatus("Completing login...");
-      try {
-        const r = await fetch(`/api/auth?code=${encodeURIComponent(codeParam)}`, { method: "GET" });
-        if (!r.ok) {
-          const body = await r.json().catch(()=>null);
-          console.error("Auth endpoint error", r.status, body);
-          showStatus("Login failed (server). Check console.");
-          // Clean URL to avoid stuck code
-          window.history.replaceState({}, document.title, window.location.pathname);
-          return;
-        }
-        const json = await r.json();
-        if (!json || !json.ok || !json.user) {
-          console.error("Auth returned invalid payload", json);
-          showStatus("Login failed (invalid response).");
-          window.history.replaceState({}, document.title, window.location.pathname);
-          return;
-        }
-
-        // Save user to localStorage
-        localStorage.setItem("jxvaUser", JSON.stringify(json.user));
-        // Clean URL (remove ?code=... and any hash)
-        window.history.replaceState({}, document.title, window.location.pathname);
-
-        // render user in navbar
-        renderLoggedIn(json.user);
-      } catch (err) {
-        console.error("Exception during auth exchange:", err);
-        showStatus("Login error. Check console.");
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
-    }
-
-    // Boot: check localStorage, or exchange code if present
-    (function boot() {
-      const stored = JSON.parse(localStorage.getItem("jxvaUser") || "null");
-      if (stored && stored.id) {
-        renderLoggedIn(stored);
-        return;
-      }
+    async function checkOAuth() {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
 
       if (code) {
-        // If URL had a hash fragment, the browser may auto-scroll — remove fragment ASAP
-        // (We still read the code above from search params)
-        history.replaceState({}, document.title, window.location.pathname);
-        exchangeCodeAndLogin(code);
-        return;
-      }
+        try {
+          const res = await fetch(`/api/auth?code=${code}`);
+          const data = await res.json();
 
-      renderLoggedOut();
-    })();
+          if (data.user) {
+            localStorage.setItem("jxvaUser", JSON.stringify(data.user));
+            window.history.replaceState({}, document.title, "/");
+            renderUser(data.user);
+          } else {
+            console.error("Login failed:", data.error);
+          }
+        } catch (err) {
+          console.error("OAuth error:", err);
+        }
+      } else {
+        const user = JSON.parse(localStorage.getItem("jxvaUser") || "null");
+        if (user) renderUser(user);
+      }
+    }
+
+    function renderUser(user) {
+      authArea.innerHTML = `
+        <div class="user-info">
+          <img src="${user.avatar}" alt="pfp">
+          <span>${user.username}</span>
+          <a class="login-btn" id="logoutBtn">Logout</a>
+        </div>
+      `;
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("jxvaUser");
+        location.reload();
+      });
+    }
+
+    checkOAuth();
   </script>
 </body>
 </html>
