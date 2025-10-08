@@ -1,49 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>jxva Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Jxva — Discord Bot</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Poppins',sans-serif;background:radial-gradient(circle at top,#11111a,#0a0a0f);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center}
-    .card{background:rgba(255,255,255,0.04);padding:28px;border-radius:12px;width:92%;max-width:720px;text-align:center}
-    img{width:96px;height:96px;border-radius:50%;margin-bottom:14px}
-    .name{color:#FFFA63;font-weight:700;font-size:1.4rem;margin-bottom:6px}
-    .id{color:#aaa;margin-bottom:14px}
-    .guilds{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:12px}
-    .guild{background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center}
-    .logout{margin-top:16px;background:linear-gradient(135deg,#FFFA63,#f8e473);color:#0a0a0f;padding:8px 14px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(180deg,#0a0a0f 0%,#11111a 100%);
+      color:#fff;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+
+    /* NAV */
+    nav{
+      position:fixed;top:0;left:0;width:100%;
+      background:rgba(10,10,15,0.65);
+      backdrop-filter:blur(8px);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 40px;z-index:100;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+    .logo{font-size:1.6rem;font-weight:700;color:#FFFA63}
+    .nav-links{display:flex;align-items:center;gap:20px}
+    .nav-links a{
+      color:#fff;text-decoration:none;font-weight:600;
+      transition:.2s ease;
+    }
+    .nav-links a:hover{color:#FFFA63}
+    .login-link{
+      background:linear-gradient(135deg,#5865f2,#7289da);
+      color:#fff;padding:8px 18px;border-radius:10px;
+      text-decoration:none;font-weight:600;transition:.2s ease;
+    }
+    .login-link:hover{opacity:.85}
+
+    /* HERO */
+    header{
+      min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;padding:0 20px;
+    }
+    header h1{
+      font-size:4rem;color:#FFFA63;text-shadow:0 0 20px rgba(255,250,99,0.4);
+      margin-bottom:16px;
+    }
+    header p{font-size:1.2rem;max-width:700px;color:#bbb;margin-bottom:28px}
+    .cta{
+      display:inline-block;background:linear-gradient(135deg,#5865f2,#7289da);
+      color:#fff;padding:14px 28px;border-radius:14px;
+      text-decoration:none;font-weight:700;transition:.25s;
+    }
+    .cta:hover{transform:translateY(-2px);opacity:.9}
+
+    /* SECTIONS */
+    section{padding:100px 40px;text-align:center}
+    h2{font-size:2.4rem;margin-bottom:20px;color:#FFFA63}
+    p.section-desc{color:#aaa;margin-bottom:40px}
+
+    /* COMMANDS */
+    .commands{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:20px;max-width:1000px;margin:0 auto;
+    }
+    .command-card{
+      background:rgba(255,255,255,0.04);
+      padding:20px;border-radius:12px;text-align:left;
+      transition:.25s;
+    }
+    .command-card:hover{transform:translateY(-4px);background:rgba(255,255,255,0.06)}
+    .command-card h3{color:#FFFA63;margin-bottom:8px}
+
+    /* SUPPORT */
+    .support a{
+      display:inline-block;
+      background:linear-gradient(135deg,#5865f2,#7289da);
+      padding:10px 22px;border-radius:10px;
+      color:#fff;text-decoration:none;font-weight:600;transition:.25s;
+    }
+    .support a:hover{opacity:.85}
+
+    footer{
+      padding:30px;text-align:center;color:#777;font-size:.9rem;
+      border-top:1px solid rgba(255,255,255,0.04);
+    }
+
+    /* logged in user */
+    .user-info{display:flex;align-items:center;gap:10px}
+    .user-info img{width:32px;height:32px;border-radius:50%}
+    #logoutBtn{
+      background:none;border:none;color:#FFFA63;
+      font-weight:700;cursor:pointer;margin-left:4px;
+    }
+    @media(max-width:600px){
+      header h1{font-size:2.6rem}
+      nav{padding:12px 20px}
+    }
   </style>
 </head>
 <body>
-  <div class="card" id="card">Loading...</div>
+  <nav>
+    <div class="logo">Jxva</div>
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#commands">Commands</a>
+      <a href="#support">Support</a>
+      <a id="loginLink" class="login-link" href="#">Login</a>
+    </div>
+  </nav>
+
+  <header id="home">
+    <h1>Meet Jxva</h1>
+    <p>Jxva is a modern Discord bot built for speed, stability, and style.  
+      From moderation to server utilities — it’s everything you need.</p>
+    <a href="invite.html" class="cta">Invite Jxva</a>
+  </header>
+
+  <section id="commands">
+    <h2>✨ Commands</h2>
+    <p class="section-desc">All the tools you need to manage and enhance your server.</p>
+    <div class="commands">
+      <div class="command-card"><h3>/ban</h3><p>Ban a member from your server.</p></div>
+      <div class="command-card"><h3>/kick</h3><p>Kick a member instantly.</p></div>
+      <div class="command-card"><h3>/mute</h3><p>Mute a user temporarily or permanently.</p></div>
+      <div class="command-card"><h3>/warn</h3><p>Issue warnings and track infractions.</p></div>
+      <div class="command-card"><h3>/ping</h3><p>Check the bot's latency.</p></div>
+      <div class="command-card"><h3>/help</h3><p>List of all commands and their usage.</p></div>
+    </div>
+  </section>
+
+  <section id="support" class="support">
+    <h2>💬 Support</h2>
+    <p class="section-desc">Need help or want to suggest features? Join our support community.</p>
+    <a href="https://discord.gg/E4e5v7pznG" target="_blank">Join Support Server</a>
+  </section>
+
+  <footer>© 2025 Jxva — Built by @Neporrex × Vercel</footer>
 
   <script>
+    // OAuth + navbar logic
     (function(){
-      const card = document.getElementById('card');
-      const user = JSON.parse(localStorage.getItem('jxvaUser')||'null');
-      if (!user || !user.id) {
-        card.innerHTML = `<p>Not logged in.</p><a style="display:inline-block;margin-top:12px;padding:8px 12px;background:linear-gradient(135deg,#5865f2,#7289da);color:#fff;border-radius:8px;text-decoration:none" href="index.html">Go to site</a>`;
-        return;
+      const clientId = "1425450445140393994";
+      const redirectUri = "https://jxva.vercel.app";
+      const scope = "identify+guilds";
+      const loginURL = `https://discord.com/oauth2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}`;
+
+      const loginLink = document.getElementById("loginLink");
+      if (loginLink) loginLink.href = loginURL;
+
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+
+      function renderLoggedIn(user){
+        const nav = document.getElementById("navLinks");
+        nav.innerHTML = `
+          <a href="#home">Home</a>
+          <a href="#commands">Commands</a>
+          <a href="#support">Support</a>
+          <div class="user-info">
+            <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" 
+                 onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+            <span>${user.username}</span>
+            <a href="dashboard.html" class="login-link">Dashboard</a>
+            <button id="logoutBtn">Logout</button>
+          </div>`;
+        document.getElementById("logoutBtn").addEventListener("click",()=>{
+          localStorage.removeItem("jxvaUser");
+          location.reload();
+        });
       }
 
-      const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
-      const guilds = Array.isArray(user.guilds) ? user.guilds : [];
+      async function exchangeCode(c){
+        try{
+          const res = await fetch(`/api/auth?code=${encodeURIComponent(c)}`);
+          const user = await res.json();
+          if(user.id){
+            localStorage.setItem("jxvaUser", JSON.stringify(user));
+            window.history.replaceState({}, document.title, window.location.pathname);
+            renderLoggedIn(user);
+          }else{
+            console.error("Auth failed:",user);
+          }
+        }catch(e){console.error(e);}
+      }
 
-      card.innerHTML = `
-        <img src="${avatarUrl}" alt="avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-        <div class="name">${user.username}${user.discriminator?('#'+user.discriminator):''}</div>
-        <div class="id">ID: ${user.id}</div>
-        <div style="margin-top:8px">Your servers (${guilds.length})</div>
-        <div class="guilds">${guilds.slice(0,12).map(g=>`<div class="guild">${g.name}</div>`).join('')}</div>
-        <button class="logout" id="logoutBtn">Logout</button>
-      `;
-      document.getElementById('logoutBtn').addEventListener('click', ()=>{
-        localStorage.removeItem('jxvaUser');
-        location.href = 'index.html';
-      });
+      const stored = JSON.parse(localStorage.getItem("jxvaUser")||"null");
+      if(stored && stored.id){
+        renderLoggedIn(stored);
+      }else if(code){
+        exchangeCode(code);
+      }
     })();
   </script>
 </body>
