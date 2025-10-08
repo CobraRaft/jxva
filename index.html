@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jxva — Your Smart Discord Bot</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      background: radial-gradient(circle at top, #11111a, #0a0a0f);
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      color: #5865f2;
+      text-shadow: 0 0 15px rgba(88, 101, 242, 0.5);
+    }
+
+    p {
+      color: #bdbdbd;
+      max-width: 600px;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .button {
+      text-decoration: none;
+      background: linear-gradient(135deg, #5865f2, #7289da);
+      color: white;
+      padding: 14px 36px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    /* floating animation */
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(88,101,242,0.25) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: -1;
+      animation: glowMove 10s infinite linear;
+    }
+
+    @keyframes glowMove {
+      0% { transform: translate(-100px, 0); }
+      50% { transform: translate(100px, 50px); }
+      100% { transform: translate(-100px, 0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <h1 class="floating">jxva</h1>
+  <p>
+    Here is <strong>jxva</strong> — a discord bot, made by @neporrex_, when he started to learn JavaScript ! Now he's public and very usefull.
+    <br />From moderation to automation, jxva is very usefull !
+  </p>
+  <a class="button" href="invite.html">Invite jxva</a>
+  <footer>© 2025 jxva — Powered by @Neporrex X Vercel.</footer>
+</body>
+</html>
