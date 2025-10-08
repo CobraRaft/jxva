@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jxva — Your Smart Discord Bot</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      background: radial-gradient(circle at top, #11111a, #0a0a0f);
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    header {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #login-btn, #dashboard-btn {
+      text-decoration: none;
+      background: linear-gradient(135deg, #5865f2, #7289da);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #login-btn:hover, #dashboard-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(88, 101, 242, 0.5);
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid #5865f2;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #FFFA63;
+      text-shadow: 0 0 15px rgba(255, 245, 139);
+    }
+
+    p {
+      color: #bdbdbd;
+      max-width: 600px;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .button {
+      text-decoration: none;
+      background: linear-gradient(135deg, #5865f2, #7289da);
+      color: white;
+      padding: 14px 36px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header id="navbar">
+    <a id="login-btn" href="https://jxva.katabump.com/api/login">Login</a>
+  </header>
+
+  <div>
+    <h1>jxva</h1>
+    <p>
+      Here is <strong>jxva</strong> — a Discord bot, made by @neporrex_! From moderation to automation, <br> jxva helps you run your server smarter.
+    </p>
+    <a class="button" href="invite.html">Invite jxva</a>
+  </div>
+
+  <footer>© 2025 jxva — Powered by @Neporrex × Vercel.</footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    if (code) {
+      fetch(`https://jxva.katabump.com/api/callback?code=${code}`)
+        .then(res => res.json())
+        .then(data => {
+          const navbar = document.getElementById("navbar");
+          navbar.innerHTML = `
+            <img src="https://cdn.discordapp.com/avatars/${data.user.id}/${data.user.avatar}.png" class="avatar" />
+            <a id="dashboard-btn" href="/dashboard">Dashboard</a>
+          `;
+        })
+        .catch(err => console.error("Login error:", err));
+    }
+  </script>
+</body>
+</html>
