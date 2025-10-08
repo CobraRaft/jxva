@@ -18,12 +18,42 @@
       height: 100vh;
       margin: 0;
       text-align: center;
-      overflow: hidden;
+    }
+
+    header {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #login-btn, #dashboard-btn {
+      text-decoration: none;
+      background: linear-gradient(135deg, #5865f2, #7289da);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #login-btn:hover, #dashboard-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(88, 101, 242, 0.5);
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid #5865f2;
     }
 
     h1 {
       font-size: 3rem;
-      margin-bottom: 0.5rem;
       color: #FFFA63;
       text-shadow: 0 0 15px rgba(255, 245, 139);
     }
@@ -58,116 +88,38 @@
       color: #777;
       font-size: 0.9rem;
     }
-
-    .floating {
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .glow {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(254, 255, 255) 0%, transparent 70%);
-      filter: blur(60px);
-      z-index: -1;
-      animation: glowMove 10s infinite linear;
-    }
-
-    @keyframes glowMove {
-      0% { transform: translate(-100px, 0); }
-      50% { transform: translate(100px, 50px); }
-      100% { transform: translate(-100px, 0); }
-    }
-
-    /* Navbar */
-    .navbar {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .login-btn {
-      background: linear-gradient(135deg, #FFFA63, #f8e473);
-      color: #0a0a0f;
-      padding: 10px 24px;
-      border-radius: 10px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-
-    .login-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(255, 245, 139, 0.5);
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 6px 14px;
-      border-radius: 12px;
-    }
-
-    .user-info img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-    }
-
   </style>
 </head>
 <body>
-  <div class="glow"></div>
+  <header id="navbar">
+    <a id="login-btn" href="https://jxva.katabump.com/api/login">Login</a>
+  </header>
 
-  <!-- Navbar -->
-  <div class="navbar" id="navbar">
-    <a class="login-btn" id="loginBtn" href="https://discord.com/oauth2/authorize?client_id=1425450445140393994&response_type=code&redirect_uri=https%3A%2F%2Fjxva.vercel.app&scope=identify+guilds+guilds.members.read+guilds.channels.read">Login with Discord</a>
+  <div>
+    <h1>jxva</h1>
+    <p>
+      Here is <strong>jxva</strong> — a Discord bot, made by @neporrex_! From moderation to automation, <br> jxva helps you run your server smarter.
+    </p>
+    <a class="button" href="invite.html">Invite jxva</a>
   </div>
-
-  <!-- Content -->
-  <h1 class="floating">jxva</h1>
-  <p>
-    Here is <strong>jxva</strong> — a Discord bot made by <strong>@neporrex_</strong> when he started to learn JavaScript!
-    <br />From moderation to automation!
-  </p>
-  <a class="button" href="invite.html">Invite jxva</a>
 
   <footer>© 2025 jxva — Powered by @Neporrex × Vercel.</footer>
 
   <script>
-    // Read ?code= from URL (Discord redirect)
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
 
-    // Mock “logged in” for now (since no backend yet)
     if (code) {
-      localStorage.setItem("jxvaUser", JSON.stringify({
-        avatar: "https://cdn.discordapp.com/embed/avatars/0.png"
-      }));
-      // Clean URL
-      window.history.replaceState({}, document.title, "/");
-    }
-
-    const user = JSON.parse(localStorage.getItem("jxvaUser") || "null");
-    const navbar = document.getElementById("navbar");
-
-    if (user) {
-      navbar.innerHTML = `
-        <div class="user-info">
-          <img src="${user.avatar}" alt="User Avatar">
-          <a class="login-btn" href="dashboard.html">Dashboard</a>
-        </div>
-      `;
+      fetch(`https://jxva.katabump.com/api/callback?code=${code}`)
+        .then(res => res.json())
+        .then(data => {
+          const navbar = document.getElementById("navbar");
+          navbar.innerHTML = `
+            <img src="https://cdn.discordapp.com/avatars/${data.user.id}/${data.user.avatar}.png" class="avatar" />
+            <a id="dashboard-btn" href="/dashboard">Dashboard</a>
+          `;
+        })
+        .catch(err => console.error("Login error:", err));
     }
   </script>
 </body>
