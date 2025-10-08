@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>jxva — Your Smart Discord Bot</title>
+  <title>Jxva Discord Bot</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -84,16 +84,97 @@
       50% { transform: translate(100px, 50px); }
       100% { transform: translate(-100px, 0); }
     }
+
+    /* top bar */
+    .navbar {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .login-btn {
+      background: linear-gradient(135deg, #FFFA63, #f8e473);
+      color: #0a0a0f;
+      padding: 10px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .login-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 245, 139, 0.5);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 12px;
+    }
+
+    .user-info img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .user-info span {
+      font-weight: 500;
+    }
+
   </style>
 </head>
 <body>
   <div class="glow"></div>
+
+  <!-- Navbar -->
+  <div class="navbar" id="navbar">
+    <a class="login-btn" id="loginBtn" href="https://discord.com/oauth2/authorize?client_id=1425450445140393994&response_type=code&redirect_uri=https%3A%2F%2Fjxva.vercel.app&scope=guilds+guilds.channels.read+guilds.members.read+identify">Login with Discord</a>
+  </div>
+
+  <!-- Content -->
   <h1 class="floating">jxva</h1>
   <p>
-    Here is <strong>jxva</strong> — a discord bot, made by @neporrex_, when he started to learn JavaScript ! Now he's public and very usefull.
-    <br />From moderation to automation !
+    Here is <strong>jxva</strong> — a Discord bot made by <strong>@neporrex_</strong> when he started to learn JavaScript!
+    <br />From moderation to automation!
   </p>
   <a class="button" href="invite.html">Invite jxva</a>
-  <footer>© 2025 jxva — Powered by @Neporrex X Vercel.</footer>
+
+  <footer>© 2025 jxva — Powered by @Neporrex × Vercel.</footer>
+
+  <script>
+    // Simple localStorage-based login mock (replace later with real Discord OAuth)
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    if (code) {
+      // Save pseudo login (this will be replaced later by backend logic)
+      localStorage.setItem("jxvaUser", JSON.stringify({
+        username: "Neporrex",
+        avatar: "https://cdn.discordapp.com/embed/avatars/1.png"
+      }));
+      window.history.replaceState({}, document.title, "/");
+    }
+
+    const user = JSON.parse(localStorage.getItem("jxvaUser") || "null");
+    const navbar = document.getElementById("navbar");
+
+    if (user) {
+      navbar.innerHTML = `
+        <div class="user-info">
+          <img src="${user.avatar}" alt="User Avatar">
+          <span>${user.username}</span>
+          <a class="login-btn" href="dashboard.html">Dashboard</a>
+        </div>
+      `;
+    }
+  </script>
 </body>
 </html>
