@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jxva Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #11111a, #0a0a0f);
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.05);
+      animation: fadeIn 0.6s ease forwards;
+    }
+    .card img {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+    .username {
+      font-size: 1.6rem;
+      color: #FFFA63;
+    }
+    .userid {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+    .logout-btn {
+      background: linear-gradient(135deg, #FFFA63, #f8e473);
+      color: #0a0a0f;
+      padding: 10px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .logout-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 245, 139, 0.4);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="userCard">
+    <p>Loading...</p>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("jxvaUser") || "null");
+    const card = document.getElementById("userCard");
+
+    if (!user) {
+      card.innerHTML = `
+        <p>You are not logged in.</p>
+        <a class="logout-btn" href="index.html">Go back</a>
+      `;
+    } else {
+      card.innerHTML = `
+        <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" alt="avatar">
+        <div class="username">${user.username}</div>
+        <div class="userid">ID: ${user.id}</div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      `;
+    }
+
+    function logout() {
+      localStorage.removeItem("jxvaUser");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
