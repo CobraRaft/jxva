@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jxva Discord Bot</title>
+  <title>jxva — Your Smart Discord Bot</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -59,7 +59,6 @@
       font-size: 0.9rem;
     }
 
-    /* floating animation */
     .floating {
       animation: float 3s ease-in-out infinite;
     }
@@ -85,7 +84,7 @@
       100% { transform: translate(-100px, 0); }
     }
 
-    /* top bar */
+    /* Navbar */
     .navbar {
       position: absolute;
       top: 20px;
@@ -115,7 +114,7 @@
       align-items: center;
       gap: 10px;
       background: rgba(255, 255, 255, 0.1);
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 12px;
     }
 
@@ -125,10 +124,6 @@
       border-radius: 50%;
     }
 
-    .user-info span {
-      font-weight: 500;
-    }
-
   </style>
 </head>
 <body>
@@ -136,7 +131,7 @@
 
   <!-- Navbar -->
   <div class="navbar" id="navbar">
-    <a class="login-btn" id="loginBtn" href="https://discord.com/oauth2/authorize?client_id=1425450445140393994&response_type=code&redirect_uri=https%3A%2F%2Fjxva.vercel.app&scope=guilds+guilds.channels.read+guilds.members.read+identify">Login with Discord</a>
+    <a class="login-btn" id="loginBtn" href="https://discord.com/oauth2/authorize?client_id=1425450445140393994&response_type=code&redirect_uri=https%3A%2F%2Fjxva.vercel.app&scope=identify+guilds+guilds.members.read+guilds.channels.read">Login with Discord</a>
   </div>
 
   <!-- Content -->
@@ -150,16 +145,16 @@
   <footer>© 2025 jxva — Powered by @Neporrex × Vercel.</footer>
 
   <script>
-    // Simple localStorage-based login mock (replace later with real Discord OAuth)
+    // Read ?code= from URL (Discord redirect)
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
 
+    // Mock “logged in” for now (since no backend yet)
     if (code) {
-      // Save pseudo login (this will be replaced later by backend logic)
       localStorage.setItem("jxvaUser", JSON.stringify({
-        username: "Neporrex",
-        avatar: "https://cdn.discordapp.com/embed/avatars/1.png"
+        avatar: "https://cdn.discordapp.com/embed/avatars/0.png"
       }));
+      // Clean URL
       window.history.replaceState({}, document.title, "/");
     }
 
@@ -170,7 +165,6 @@
       navbar.innerHTML = `
         <div class="user-info">
           <img src="${user.avatar}" alt="User Avatar">
-          <span>${user.username}</span>
           <a class="login-btn" href="dashboard.html">Dashboard</a>
         </div>
       `;
