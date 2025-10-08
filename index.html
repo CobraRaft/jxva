@@ -139,60 +139,48 @@
 
   <footer>© 2025 Jxva — Built by @Neporrex × Vercel</footer>
 
-  <script>
-    // OAuth + navbar logic
-    (function(){
-      const clientId = "1425450445140393994";
-      const redirectUri = "https://jxva.vercel.app";
-      const scope = "identify+guilds";
-      const loginURL = `https://discord.com/oauth2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}`;
+<script type="module">
+const loginBtn = document.getElementById("login-btn");
+const userInfo = document.getElementById("user-info");
+const pfp = document.getElementById("pfp");
+const dashboardBtn = document.getElementById("dashboard-btn");
+const logoutBtn = document.getElementById("logout-btn");
 
-      const loginLink = document.getElementById("loginLink");
-      if (loginLink) loginLink.href = loginURL;
+const params = new URLSearchParams(window.location.search);
+const code = params.get("code");
 
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
+// if we already have a user in localStorage
+const savedUser = localStorage.getItem("jxvaUser");
+if (savedUser) {
+  const user = JSON.parse(savedUser);
+  showUser(user);
+}
 
-      function renderLoggedIn(user){
-        const nav = document.getElementById("navLinks");
-        nav.innerHTML = `
-          <a href="#home">Home</a>
-          <a href="#commands">Commands</a>
-          <a href="#support">Support</a>
-          <div class="user-info">
-            <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" 
-                 onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-            <span>${user.username}</span>
-            <a href="dashboard.html" class="login-link">Dashboard</a>
-            <button id="logoutBtn">Logout</button>
-          </div>`;
-        document.getElementById("logoutBtn").addEventListener("click",()=>{
-          localStorage.removeItem("jxvaUser");
-          location.reload();
-        });
-      }
+async function getUser(code) {
+  const res = await fetch(`/api/auth?code=${code}`);
+  const data = await res.json();
+  if (data.user) {
+    localStorage.setItem("jxvaUser", JSON.stringify(data.user));
+    showUser(data.user);
+    window.history.replaceState({}, document.title, "/"); // remove ?code
+  }
+}
 
-      async function exchangeCode(c){
-        try{
-          const res = await fetch(`/api/auth?code=${encodeURIComponent(c)}`);
-          const user = await res.json();
-          if(user.id){
-            localStorage.setItem("jxvaUser", JSON.stringify(user));
-            window.history.replaceState({}, document.title, window.location.pathname);
-            renderLoggedIn(user);
-          }else{
-            console.error("Auth failed:",user);
-          }
-        }catch(e){console.error(e);}
-      }
+function showUser(user) {
+  loginBtn.style.display = "none";
+  dashboardBtn.style.display = "inline-block";
+  logoutBtn.style.display = "inline-block";
+  userInfo.innerText = user.username;
+  pfp.src = user.avatar;
+  pfp.style.display = "inline-block";
+}
 
-      const stored = JSON.parse(localStorage.getItem("jxvaUser")||"null");
-      if(stored && stored.id){
-        renderLoggedIn(stored);
-      }else if(code){
-        exchangeCode(code);
-      }
-    })();
-  </script>
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("jxvaUser");
+  location.reload();
+});
+
+if (code && !savedUser) getUser(code);
+</script>
 </body>
 </html>
