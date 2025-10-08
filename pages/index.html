@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jxva Dashboard</title>
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+  <nav>
+    <div class="logo">jxva Dashboard</div>
+    <div id="user-info"></div>
+  </nav>
+
+  <main>
+    <section id="status">
+      <h2>Bot Status</h2>
+      <div id="bot-status">Loading...</div>
+    </section>
+
+    <section id="settings">
+      <h2>Guild Settings</h2>
+      <form id="settings-form">
+        <label>Welcome Channel ID:</label>
+        <input type="text" id="welcomeChannel" placeholder="e.g. 123456789012345678" />
+
+        <label>Enable Level System:</label>
+        <input type="checkbox" id="levelSystem" />
+
+        <button type="submit">Save Settings</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>
 
