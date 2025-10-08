@@ -4,7 +4,172 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>jxva Bot</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #11111a, #0a0a0f);
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      text-align: center;
+    }
+
+    /* --- Navbar --- */
+    .navbar {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      background: rgba(10, 10, 15, 0.5);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 10;
+      animation: slideDown 0.8s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-80px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #FFFA63;
+      text-shadow: 0 0 10px rgba(255, 245, 139, 0.5);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #FFFA63;
+      transform: scale(1.05);
+    }
+
+    .login-btn {
+      background: linear-gradient(135deg, #FFFA63, #f8e473);
+      color: #0a0a0f;
+      padding: 10px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: 0.25s ease;
+      text-decoration: none;
+    }
+
+    .login-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 245, 139, 0.4);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 6px 14px;
+      border-radius: 12px;
+    }
+
+    .user-info img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    main {
+      margin-top: 120px;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      color: #FFFA63;
+      text-shadow: 0 0 20px rgba(255, 245, 139, 0.5);
+      margin-bottom: 0.6rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    p {
+      color: #bdbdbd;
+      max-width: 600px;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      margin: 0 auto 2rem auto;
+    }
+
+    .button {
+      text-decoration: none;
+      background: linear-gradient(135deg, #5865f2, #7289da);
+      color: white;
+      padding: 14px 36px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    .glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(254, 255, 255, 0.12) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: -1;
+      animation: glowMove 10s infinite linear;
+    }
+
+    @keyframes glowMove {
+      0% { transform: translate(-100px, 0); }
+      50% { transform: translate(100px, 50px); }
+      100% { transform: translate(-100px, 0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
 </head>
 <body>
   <div class="glow"></div>
@@ -19,8 +184,11 @@
   </nav>
 
   <main>
-    <h1 class="floating">jxva</h1>
-    <p>Meet <strong>jxva</strong> — a Discord bot built by <strong>@neporrex_</strong>!<br>From moderation to automation.</p>
+    <h1>jxva</h1>
+    <p>
+      Meet <strong>jxva</strong> — a Discord bot built by <strong>@neporrex_</strong>.<br>
+      From moderation to automation.
+    </p>
     <a class="button" href="invite.html">Invite jxva</a>
   </main>
 
@@ -42,11 +210,14 @@
         try {
           const res = await fetch(`/api/auth?code=${code}`);
           const user = await res.json();
-          localStorage.setItem("jxvaUser", JSON.stringify(user));
 
-          // Clean URL
-          window.history.replaceState({}, document.title, redirectUri);
-          renderNavbar(user);
+          if (user.id) {
+            localStorage.setItem("jxvaUser", JSON.stringify(user));
+            window.history.replaceState({}, document.title, redirectUri);
+            renderNavbar(user);
+          } else {
+            console.error("OAuth error:", user);
+          }
         } catch (err) {
           console.error("Login failed", err);
         }
