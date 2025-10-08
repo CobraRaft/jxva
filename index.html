@@ -7,217 +7,101 @@
   <link rel="icon" href="assets/favicon.ico" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * {margin:0;padding:0;box-sizing:border-box;}
     body {
       background: radial-gradient(circle at top, #11111a, #0a0a0f);
-      color: #ffffff;
+      color: #fff;
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
       scroll-behavior: smooth;
     }
 
-    /* --- Navbar --- */
+    /* Navbar */
     .navbar {
       width: 100%;
       position: fixed;
       top: 0;
       left: 0;
-      padding: 20px 40px;
+      padding: 18px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      backdrop-filter: blur(10px);
-      background: rgba(10, 10, 15, 0.5);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      z-index: 10;
-      animation: slideDown 0.8s ease forwards;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,15,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      z-index: 100;
     }
-
-    @keyframes slideDown {
-      from { transform: translateY(-80px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
     .logo {
       font-size: 1.6rem;
       font-weight: 700;
       color: #FFFA63;
-      text-shadow: 0 0 10px rgba(255, 245, 139, 0.5);
+      text-shadow: 0 0 8px rgba(255,245,139,0.5);
     }
-
     .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+      display:flex;align-items:center;gap:22px;
     }
-
     .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: color 0.2s ease, transform 0.2s ease;
+      color:#fff;text-decoration:none;font-weight:600;
+      transition:color .2s,transform .2s;
     }
-
-    .nav-links a:hover {
-      color: #FFFA63;
-      transform: scale(1.05);
-    }
-
+    .nav-links a:hover {color:#FFFA63;transform:scale(1.05);}
     .login-btn {
-      background: linear-gradient(135deg, #FFFA63, #f8e473);
-      color: #0a0a0f;
-      padding: 10px 24px;
-      border-radius: 10px;
-      font-weight: 600;
-      transition: 0.25s ease;
-      text-decoration: none;
+      background: linear-gradient(135deg,#FFFA63,#f8e473);
+      color:#0a0a0f;padding:9px 20px;border-radius:8px;
+      font-weight:600;text-decoration:none;
+      transition:transform .25s,box-shadow .25s;
     }
-
-    .login-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255, 245, 139, 0.4);
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 6px 14px;
-      border-radius: 12px;
-    }
-
-    .user-info img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-    }
+    .login-btn:hover {transform:scale(1.05);box-shadow:0 0 15px rgba(255,245,139,0.4);}
+    .user-info {display:flex;align-items:center;gap:8px;}
+    .user-info img {width:28px;height:28px;border-radius:50%;}
 
     section {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 100px 20px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding: 140px 20px 100px; /* top padding prevents overlap */
     }
 
     h1 {
-      font-size: 3.5rem;
-      color: #FFFA63;
-      text-shadow: 0 0 20px rgba(255, 245, 139, 0.5);
-      margin-bottom: 0.6rem;
-      animation: float 3s ease-in-out infinite;
+      font-size:3.2rem;color:#FFFA63;
+      text-shadow:0 0 15px rgba(255,245,139,0.4);
+      margin-bottom:0.4rem;
     }
-
-    p {
-      color: #bdbdbd;
-      max-width: 600px;
-      font-size: 1.15rem;
-      line-height: 1.6;
-      margin: 0 auto 2rem auto;
-    }
+    p {color:#bdbdbd;max-width:600px;margin-bottom:2rem;}
 
     .button {
-      text-decoration: none;
-      background: linear-gradient(135deg, #5865f2, #7289da);
-      color: white;
-      padding: 14px 36px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration:none;
+      background:linear-gradient(135deg,#5865f2,#7289da);
+      color:white;padding:14px 36px;border-radius:12px;
+      font-weight:600;font-size:1.1rem;
+      transition:transform .2s,box-shadow .2s;
     }
+    .button:hover {transform:scale(1.05);box-shadow:0 0 20px rgba(88,101,242,.5);}
 
-    .button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
-    }
-
-    footer {
-      text-align: center;
-      color: #777;
-      font-size: 0.9rem;
-      padding: 30px;
-    }
-
-    .glow {
-      position: fixed;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(254, 255, 255, 0.12) 0%, transparent 70%);
-      filter: blur(60px);
-      z-index: -1;
-      animation: glowMove 10s infinite linear;
-    }
-
-    @keyframes glowMove {
-      0% { transform: translate(-100px, 0); }
-      50% { transform: translate(100px, 50px); }
-      100% { transform: translate(-100px, 0); }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* Commands */
     .commands {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-      width: 80%;
-      max-width: 900px;
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:20px;margin-top:30px;width:80%;max-width:900px;
     }
-
     .command-card {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 20px;
-      border-radius: 12px;
-      transition: transform 0.2s, box-shadow 0.2s;
+      background:rgba(255,255,255,.05);
+      padding:20px;border-radius:12px;
+      transition:transform .2s,box-shadow .2s;
     }
+    .command-card:hover {transform:scale(1.05);box-shadow:0 0 15px rgba(255,255,255,.1);}
+    .command-card h3 {color:#FFFA63;margin-bottom:10px;}
 
-    .command-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-    }
-
-    .command-card h3 {
-      color: #FFFA63;
-      margin-bottom: 10px;
-    }
-
-    .command-card p {
-      font-size: 0.95rem;
-      color: #ccc;
-    }
-
-    /* Support */
     .support a {
-      color: #5865f2;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s;
+      color:#5865f2;text-decoration:none;font-weight:600;
     }
+    .support a:hover {color:#7289da;}
 
-    .support a:hover {
-      color: #7289da;
-    }
+    footer {text-align:center;color:#777;font-size:0.9rem;padding:30px;}
   </style>
 </head>
 <body>
-  <div class="glow"></div>
-
   <nav class="navbar" id="navbar">
     <div class="logo">jxva</div>
     <div class="nav-links">
@@ -228,43 +112,25 @@
     </div>
   </nav>
 
-  <!-- Home -->
   <section id="home">
     <h1>jxva</h1>
-    <p>
-      Meet <strong>jxva</strong> — a Discord bot built by <strong>@neporrex_</strong>.<br>
-      From moderation to automation.
-    </p>
+    <p>Meet <strong>jxva</strong> — a Discord bot by <strong>@neporrex_</strong>.</p>
     <a class="button" href="invite.html">Invite jxva</a>
   </section>
 
-  <!-- Commands -->
   <section id="commands">
     <h2>✨ Commands</h2>
     <div class="commands">
-      <div class="command-card">
-        <h3>/ban</h3>
-        <p>Bans a user from the server.</p>
-      </div>
-      <div class="command-card">
-        <h3>/kick</h3>
-        <p>Kicks a user from the server.</p>
-      </div>
-      <div class="command-card">
-        <h3>/ping</h3>
-        <p>Shows the bot latency.</p>
-      </div>
-      <div class="command-card">
-        <h3>/help</h3>
-        <p>Displays all available commands.</p>
-      </div>
+      <div class="command-card"><h3>/ban</h3><p>Bans a user from the server.</p></div>
+      <div class="command-card"><h3>/kick</h3><p>Kicks a user from the server.</p></div>
+      <div class="command-card"><h3>/ping</h3><p>Shows latency.</p></div>
+      <div class="command-card"><h3>/help</h3><p>Shows all commands.</p></div>
     </div>
   </section>
 
-  <!-- Support -->
   <section id="support" class="support">
     <h2>💬 Support</h2>
-    <p>Need help or want to suggest something? Join our community!</p>
+    <p>Need help or want to suggest something? Join our community.</p>
     <a href="https://discord.gg/E4e5v7pznG" target="_blank">Join Support Server</a>
   </section>
 
@@ -274,32 +140,33 @@
     const clientId = "1425450445140393994";
     const redirectUri = "https://jxva.vercel.app";
     const loginUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identify+guilds`;
-
+    const loginBtn = document.getElementById("loginBtn");
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
 
-    async function handleLogin() {
-      const loginBtn = document.getElementById("loginBtn");
-
+    async function handleAuth() {
       if (code) {
+        // remove hash fragments to fix #support issue
+        const cleanUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
         try {
           const res = await fetch(`/api/auth?code=${code}`);
-          const user = await res.json();
-
-          if (user.id) {
-            localStorage.setItem("jxvaUser", JSON.stringify(user));
-            window.history.replaceState({}, document.title, redirectUri);
-            renderNavbar(user);
-          } else console.error("OAuth error:", user);
+          const data = await res.json();
+          if (data.id) {
+            localStorage.setItem("jxvaUser", JSON.stringify(data));
+            renderNavbar(data);
+          } else {
+            console.warn("OAuth response invalid:", data);
+            renderNavbar(null);
+          }
         } catch (err) {
           console.error("Login failed", err);
+          renderNavbar(null);
         }
       } else {
         const user = JSON.parse(localStorage.getItem("jxvaUser") || "null");
         renderNavbar(user);
       }
-
-      loginBtn.onclick = () => (window.location.href = loginUrl);
     }
 
     function renderNavbar(user) {
@@ -312,21 +179,22 @@
             <a href="#commands">Commands</a>
             <a href="#support">Support</a>
             <div class="user-info">
-              <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" alt="avatar">
+              <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" alt="pfp" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
               <span>${user.username}</span>
               <a class="login-btn" href="dashboard.html">Dashboard</a>
               <button id="logoutBtn" style="background:none;border:none;color:#FFFA63;cursor:pointer;font-weight:600;">Logout</button>
             </div>
-          </div>
-        `;
+          </div>`;
         document.getElementById("logoutBtn").onclick = () => {
           localStorage.removeItem("jxvaUser");
           location.reload();
         };
+      } else {
+        navbar.querySelector("#loginBtn").onclick = () => window.location.href = loginUrl;
       }
     }
 
-    handleLogin();
+    handleAuth();
   </script>
 </body>
 </html>
